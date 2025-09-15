@@ -1,10 +1,14 @@
 package br.csi.sistema_saude.controller;
 
+import br.csi.sistema_saude.model.Dados;
+import br.csi.sistema_saude.model.Relatorio;
 import br.csi.sistema_saude.model.Usuario;
 import br.csi.sistema_saude.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -62,4 +66,40 @@ public class UsuarioController {
         this.usuarioService.excluirUsuario(codUsuario);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String email,
+                                   @RequestParam String senha,
+                                   HttpSession session) {
+
+        Usuario usuario = usuarioService.validarUsuario(email, senha);
+
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuário ou senha inválidos");
+        }
+
+        session.setAttribute("usuarioLogado", usuario);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @GetMapping("/{codUsuario}/imc")
+    public ResponseEntity<?> calcularIMC(@PathVariable Integer codUsuario) {
+        Usuario usuario = usuarioService.buscarUsuario(codUsuario);
+        if (usuario == null) {
+            throw new NoSuchElementException("Usuário não encontrado");
+        }
+
+        // Busca os relatórios do usuário
+        List<Relatorio> relatoriosDoUsuario = usuarioService.buscarRelatoriosPorUsuario(usuario);
+
+        try {
+            double imc = usuarioService.calcularIMC(usuario, relatoriosDoUsuario);
+            return ResponseEntity.ok("IMC do usuário " + usuario.getPerfil().getNome() + ": " + imc);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
 }

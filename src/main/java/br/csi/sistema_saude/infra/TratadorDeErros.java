@@ -46,4 +46,12 @@ public class TratadorDeErros {
 
 
     private record DadosErroValidacao(String campo, String mensagem) { }
+
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> tratarErroIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(Map.of("erro", ex.getMessage()));
+    }
+
+
 }
