@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -98,6 +99,20 @@ public class UsuarioController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    //validar se está buscando o email certo.
+    @GetMapping("/buscar-email")
+    public ResponseEntity<?> buscarPorEmail(@RequestParam String email) {
+        Usuario usuario = usuarioService.buscarPorEmail(email);
+
+        if (usuario == null) {
+
+            throw new NoSuchElementException("Usuário não encontrado com o email: " + email);
+        }
+
+
+        return ResponseEntity.ok(usuario);
     }
 
 

@@ -54,6 +54,10 @@ public class UsuarioService {
         this.usuarioRepository.save(u);
     }
 
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByContaEmail(email);
+    }
+
     public Usuario validarUsuario(String email, String senha) {
         Usuario usuario = usuarioRepository.findByContaEmail(email);
 
