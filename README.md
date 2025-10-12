@@ -49,7 +49,7 @@ O sistema foi desenvolvido para que usuários possam:
 
 ## 📚 Protótipo
 
-![Protótipo(assets/prototipo.png)
+![Protótipo](assets/prototipo.png)
 
 ---
 
