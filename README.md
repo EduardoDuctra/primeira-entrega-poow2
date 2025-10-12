@@ -32,9 +32,7 @@ Desenvolver um sistema que permita aos usuários controlar e acompanhar seus dad
 
 ## 🛠️ Diagrama ER
 
-
-
----
+![Diagrama ER](assets/diagrama_er.png)
 
 ## 🧪 Uso / Objetivos
 
