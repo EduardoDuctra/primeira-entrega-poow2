@@ -50,8 +50,6 @@ public class SecurityConfig {
                                 // Endpoint restrito a ADMIN
                                 .requestMatchers("/usuario/listar-usuarios").hasAuthority("ROLE_ADMIN")
 
-                                // Endpoint restrito a ADMIN
-//                                .requestMatchers("/usuario/{codUsuario}").hasAuthority("ROLE_ADMIN")
 
                                 // Qualquer outro endpoint exige autenticação
                                 .anyRequest().authenticated()

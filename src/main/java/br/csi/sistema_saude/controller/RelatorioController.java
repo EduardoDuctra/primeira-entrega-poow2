@@ -40,7 +40,7 @@ public class RelatorioController {
     @Operation(summary = "Criar um relatório", description = "Cadastra um novo relatório ao banco de dados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Relatório salvo com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Relatorio.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao salvar relatório", content = @Content)
     })
     public ResponseEntity salvarRelatorio(@RequestBody @Valid Relatorio relatorio, UriComponentsBuilder uriBuilder) {
@@ -59,7 +59,7 @@ public class RelatorioController {
     @Operation(summary = "Listar todos os relatórios", description = "Retorna uma lista com todos os relatórios cadastrados no banco de dados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Relatórios retornados com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Relatorio.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao retornar relatórios", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -76,7 +76,7 @@ public class RelatorioController {
     @Operation(summary = "Retornar um relatório com base na chave primária", description = "Retorna um relatório com base na chave primária (código do usuário + código do dado + data")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Relatório retornado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Relatorio.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao retornar relatório", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -103,7 +103,7 @@ public class RelatorioController {
             "para o usuário identificado pelo ID fornecido")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Relatório retornado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Relatorio.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao retornar relatório", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -125,7 +125,7 @@ public class RelatorioController {
     @Operation(summary = "Deletar um relatório com base na chave primária", description = "Deleta um relatório com base na chave primária (código do usuário + código do dado + data")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Relatório deletato com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Relatorio.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao deletar relatório", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })

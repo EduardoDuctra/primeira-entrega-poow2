@@ -40,7 +40,7 @@ public class UsuarioController {
     @Operation(summary = "Listar todos os usuário", description = "Retorna uma lista com todos os usuários")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuários listados com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Usuários invalidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -59,7 +59,7 @@ public class UsuarioController {
     @Operation(summary = "Listar usuário pelo código dele", description = "Retorna um usuário através do seu ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Código invalido", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -78,7 +78,7 @@ public class UsuarioController {
     @Operation(summary = "Criar novo usuário", description = "Cadastra um novo usuário ao banco de dados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao criar usuário", content = @Content)
     })
     public ResponseEntity salvarUsuario(@RequestBody @Valid Usuario usuario, UriComponentsBuilder uriBuilder) {
@@ -92,7 +92,7 @@ public class UsuarioController {
     @Operation(summary = "Atualizar um usuário", description = "Recebe um Usuário e atualiza seus dados no banco de dados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao atualizar usuário", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -105,7 +105,7 @@ public class UsuarioController {
     @Operation(summary = "Deletar um usuário", description = "Deleta um usuário do banco de dados através do ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao deletar usuário", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -140,7 +140,7 @@ public class UsuarioController {
             " Chama a função calcularIMC e envia os relatórios, para filtrar o mais recente e obter os dados ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cálculo efetuado com sucesso",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao calcular IMC", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
@@ -168,7 +168,7 @@ public class UsuarioController {
             "Ela é necessária pois a classe onde está o email é UsuarioConta, associada a classe Usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário encontrado",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Dados.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
             @ApiResponse(responseCode = "400", description = "Usuário não encontrado", content = @Content),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar dados", content = @Content),
     })
