@@ -6,7 +6,6 @@ import br.csi.sistema_saude.model.Relatorio;
 import br.csi.sistema_saude.model.RelatorioId;
 import br.csi.sistema_saude.model.Usuario;
 import br.csi.sistema_saude.repository.DadosRepository;
-import br.csi.sistema_saude.repository.MedicamentoRepository;
 import br.csi.sistema_saude.repository.RelatorioRepository;
 import br.csi.sistema_saude.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,7 @@ public class RelatorioService {
     }
 
     public void salvarRelatorio(Relatorio relatorio) {
+
         Usuario usuario = usuarioRepository.findById(relatorio.getUsuario().getCodUsuario())
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
 
@@ -38,10 +38,6 @@ public class RelatorioService {
         relatorio.setDados(dado);
 
         relatorioRepository.save(relatorio);
-    }
-
-    public List<Relatorio> listarRelatorios() {
-        return relatorioRepository.findAll();
     }
 
 

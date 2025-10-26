@@ -25,9 +25,6 @@ public class Dados {
     @Schema(description = "ID do dado")
     private int codDado;
 
-    @UuidGenerator
-    @Schema(description = "UUID do dado")
-    private UUID uuid_dado;
 
     @Column(name = "peso")
     @Schema(nullable = true,  description = "Peso do usuário em KG. Exemplo: 65.5kg Pode ser nulo se não informado")
@@ -67,13 +64,6 @@ public class Dados {
         this.codDado = codDado;
     }
 
-    public UUID getUuid_dado() {
-        return uuid_dado;
-    }
-
-    public void setUuid_dado(UUID uuid_dado) {
-        this.uuid_dado = uuid_dado;
-    }
 
     public Double getPeso() {
         return peso;

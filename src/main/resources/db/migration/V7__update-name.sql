@@ -1,0 +1,1 @@
+ALTER TABLE nome_medicamento RENAME TO banco_de_medicamentos;

@@ -3,6 +3,7 @@ package br.csi.sistema_saude.service;
 import br.csi.sistema_saude.model.Dados;
 import br.csi.sistema_saude.model.Usuario;
 import br.csi.sistema_saude.repository.DadosRepository;
+import br.csi.sistema_saude.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,12 +12,20 @@ import java.util.List;
 public class DadosService {
 
     private final DadosRepository dadosRepository;
-    public DadosService(DadosRepository dadosRepository) {
+    private final UsuarioRepository usuarioRepository;
+
+    public DadosService(DadosRepository dadosRepository, UsuarioRepository usuarioRepository) {
 
         this.dadosRepository = dadosRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public void salvarDados(Dados dado) {
+
+        Usuario usuario = usuarioRepository.findById(dado.getUsuario().getCodUsuario()).orElse(null);
+
+
+        dado.setUsuario(usuario);
         dadosRepository.save(dado);
     }
     public List<Dados> listarDados() {

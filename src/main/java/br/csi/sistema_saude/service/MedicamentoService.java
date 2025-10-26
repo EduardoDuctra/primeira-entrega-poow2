@@ -1,8 +1,8 @@
 package br.csi.sistema_saude.service;
 
-import br.csi.sistema_saude.model.Dados;
 import br.csi.sistema_saude.model.Medicamento;
 import br.csi.sistema_saude.repository.MedicamentoRepository;
+import br.csi.sistema_saude.repository.BancoMedicamentoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,17 +11,20 @@ import java.util.List;
 public class MedicamentoService {
 
     private final MedicamentoRepository medicamentoRepository;
+    private final BancoMedicamentoRepository bancoMedicamentoRepository;
+    private final UsuarioService usuarioService;
 
-    public MedicamentoService(MedicamentoRepository medicamentoRepository) {
+    public MedicamentoService(MedicamentoRepository medicamentoRepository, BancoMedicamentoRepository bancoMedicamentoRepository, UsuarioService usuarioService) {
         this.medicamentoRepository = medicamentoRepository;
+        this.bancoMedicamentoRepository = bancoMedicamentoRepository;
+        this.usuarioService = usuarioService;
     }
 
-    public void salvarMedicamento (Medicamento medicamento) {
+    public void salvarMedicamento(Medicamento medicamento) {
+
         medicamentoRepository.save(medicamento);
     }
-    public List<Medicamento> buscarMedicamentos() {
-        return medicamentoRepository.findAll();
-    }
+
 
     public Medicamento buscarMedicamento(Integer codMedicamento) {
         return medicamentoRepository.findById(codMedicamento).get();
@@ -35,13 +38,19 @@ public class MedicamentoService {
         medicamentoRepository.deleteById(codMedicamento);
     }
 
-    public void atualizarMedicamento (Medicamento medicamento) {
-        Medicamento m = this.medicamentoRepository.getReferenceById(medicamento.getCodMedicamento());
-        m.setNomeMedicamento(medicamento.getNomeMedicamento());
-        m.setDoseDiaria(medicamento.getDoseDiaria());
-        m.setDuracaoTratamento(medicamento.getDuracaoTratamento());
-        m.setDataInicio(medicamento.getDataInicio());
 
-        this.medicamentoRepository.save(m);
+    public Medicamento atualizarMedicamento(Medicamento medicamentoAtualizado) {
+
+        // Busca o medicamento original do banco
+        Medicamento medicamentoExistente = medicamentoRepository.findById(medicamentoAtualizado.getCodMedicamento())
+                .orElseThrow(() -> new RuntimeException("Medicamento não encontrado"));
+
+
+        medicamentoExistente.setDataInicio(medicamentoAtualizado.getDataInicio());
+        medicamentoExistente.setDoseDiaria(medicamentoAtualizado.getDoseDiaria());
+        medicamentoExistente.setDuracaoTratamento(medicamentoAtualizado.getDuracaoTratamento());
+
+
+        return medicamentoRepository.save(medicamentoExistente);
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface MedicamentoRepository extends JpaRepository<Medicamento, Integer> {
 
     List<Medicamento> findByUsuario_CodUsuario(Integer codUsuario);
+
+
 }

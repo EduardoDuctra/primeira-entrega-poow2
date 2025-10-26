@@ -2,7 +2,6 @@ package br.csi.sistema_saude.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Entidade que representa um medicamento")
+@Schema(description = "Entidade que representa o relacionamento N:N entre medicamento e usuáio")
 
 public class Medicamento {
 
@@ -27,15 +26,6 @@ public class Medicamento {
     @Column(name = "cod_medicamento")
     @Schema(description = "ID do medicamento")
     private int codMedicamento;
-
-    @UuidGenerator
-    @Schema(description = "UUID do medicamento")
-    private UUID uuidMedicamento;
-
-    @Column(name = "nome_medicamento")
-    @NotBlank
-    @Schema(description = "Nome do medicamento. Exemplo: Dipirona")
-    private String nomeMedicamento;
 
     @Column(name = "duracao_tratamento")
     @Schema(description = "Duração do tratamento em dias. Exemplo: 4")
@@ -54,6 +44,20 @@ public class Medicamento {
     @Schema(description = "Objeto Usuário")
     private Usuario usuario;
 
+
+    @ManyToOne
+    @JoinColumn(name = "cod_nome_medicamento")
+    @Schema(description = "Objeto NomeMedicamento")
+    private BancoMedicamentos bancoMedicamentos;
+
+    public BancoMedicamentos getBancoMedicamentos() {
+        return bancoMedicamentos;
+    }
+
+    public void setBancoMedicamentos(BancoMedicamentos bancoMedicamentos) {
+        this.bancoMedicamentos = bancoMedicamentos;
+    }
+
     public int getCodMedicamento() {
         return codMedicamento;
     }
@@ -62,21 +66,6 @@ public class Medicamento {
         this.codMedicamento = codMedicamento;
     }
 
-    public UUID getUuidMedicamento() {
-        return uuidMedicamento;
-    }
-
-    public void setUuidMedicamento(UUID uuidMedicamento) {
-        this.uuidMedicamento = uuidMedicamento;
-    }
-
-    public String getNomeMedicamento() {
-        return nomeMedicamento;
-    }
-
-    public void setNomeMedicamento(String nomeMedicamento) {
-        this.nomeMedicamento = nomeMedicamento;
-    }
 
     public int getDuracaoTratamento() {
         return duracaoTratamento;

@@ -26,10 +26,6 @@ public class Usuario {
     @Schema(description = "ID do usuário")
     private int codUsuario;
 
-    @UuidGenerator
-    @Schema(description = "UUID do usuário")
-    private UUID uuidUsuario;
-
     @Embedded
     @Schema(description = "Objeto que representa a conta do usuário. Recebe UsuarioConta")
     private UsuarioConta conta;
@@ -46,13 +42,6 @@ public class Usuario {
         this.codUsuario = codUsuario;
     }
 
-    public UUID getUuidUsuario() {
-        return uuidUsuario;
-    }
-
-    public void setUuidUsuario(UUID uuidUsuario) {
-        this.uuidUsuario = uuidUsuario;
-    }
 
     public UsuarioConta getConta() {
         return conta;

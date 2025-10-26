@@ -9,15 +9,28 @@ O sistema fornece uma visão detalhada dos medicamentos em uso, suas dosagens, f
 
 Desenvolver um sistema que permita aos usuários controlar e acompanhar seus dados de saúde e medicamentos de maneira prática e segura.
 
+
+---
+
+## 📜 Estrutura do Banco de Dados
+
+O sistema possui as seguintes tabelas principais:
+
+**Usuario** – informações dos usuários do sistema.
+**Dados** – registros clínicos de cada usuário, vinculados à tabela Usuario através da data de registro.
+**Relatorios** – relatórios gerados a partir dos dados, associando usuário e dados pelo ID e data.
+**BaseMedicamentos** – cadastro dos nomes dos medicamentos disponíveis no sistema.
+**Medicamentos** – tabela que cria o relacionamento N:N entre usuários e medicamentos, armazenando informações personalizadas de cada tratamento, como dosagem, frequência e duração.
+
 ---
 
 ## 📜 Regras de Negócio
 
-- **a)** O sistema **não terá perfil de administrador**, pois cada usuário é responsável por gerenciar seus próprios dados.  
+- **a)** O sistema **terá perfil de administrador**, onde será possível visualizar todos os usuários, além de manipular a base de dados de medicamentos cadasatrados.  
 - **b)** Permitir a **visualização do histórico clínico**, oferecendo comparativos da evolução ao longo do tempo.  
-- **c)** Acesso via **autenticação de usuário**, com validação de credenciais no banco de dados.  
+- **c)** Acesso via **autenticação de usuário**, com validação de credenciais no banco de dados. Recuperação do usuário através do token, sem passar o ID pela URL. 
 - **d)** Cada usuário poderá registrar seus medicamentos, incluindo **dosagem, aplicação e intervalo entre usos**, conforme orientação médica.  
-- **e)** O relacionamento entre **Usuário e Medicamento** é **1:N**, ou seja, cada usuário possui seus medicamentos exclusivos. Isso evita confusão com nomenclaturas e mantém a interface mais simples para todos os usuários.  
+- **e)** O relacionamento entre **Usuário e Medicamento** é **N:N**, ou seja, cada usuário pode selecionar entre os medicamentos cadastrados no banco de dados, porém as informações de uso, dosagem e afins são editadas pelo próprio usuário. Isso evita confusão com nomenclaturas e mantém a interface mais simples para todos os usuários. 
 - **f)** O usuário tem controle total sobre seus dados, podendo **adicionar, editar ou excluir** registros de medicamentos e relatórios clínicos a qualquer momento.
 
 ---

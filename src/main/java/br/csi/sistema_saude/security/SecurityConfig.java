@@ -49,6 +49,7 @@ public class SecurityConfig {
 
                                 // Endpoint restrito a ADMIN
                                 .requestMatchers("/usuario/listar-usuarios").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/banco-medicamentos/**").hasAuthority("ROLE_ADMIN")
 
 
                                 // Qualquer outro endpoint exige autenticação

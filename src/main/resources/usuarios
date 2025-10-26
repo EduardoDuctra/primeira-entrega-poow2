@@ -24,3 +24,30 @@
     "altura": 1.80
   }
 }
+
+
+{
+  "conta": {
+    "email": "edu@email.com",
+    "senha": "123",
+    "permissao": "ROLE_ADMIN"
+  },
+  "perfil": {
+    "nome": "Administrador",
+    "sexo": "M",
+    "altura": 1.80
+  }
+}
+
+{
+  "conta": {
+    "email": "usuario@email.com",
+    "senha": "123",
+    "permissao": "usuario"
+  },
+  "perfil": {
+    "nome": "Eduardo",
+    "sexo": "M",
+    "altura": 1.73
+  }
+}

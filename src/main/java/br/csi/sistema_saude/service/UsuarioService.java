@@ -7,6 +7,8 @@ import br.csi.sistema_saude.model.Relatorio;
 import br.csi.sistema_saude.model.Usuario;
 import br.csi.sistema_saude.repository.RelatorioRepository;
 import br.csi.sistema_saude.repository.UsuarioRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final RelatorioRepository relatorioRepository;
 
+
     public UsuarioService(UsuarioRepository usuarioRepository,
                           RelatorioRepository relatorioRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -33,7 +36,10 @@ public class UsuarioService {
     }
 
     public List<DadoUsuario> listarUsuarios() {
-        return usuarioRepository.findAll().stream().map(DadoUsuario::new).toList();
+        return usuarioRepository.findAll()
+                .stream()
+                .map(DadoUsuario::new)
+                .toList();
     }
 
     public DadoUsuario buscarUsuario(Integer codUsuario) {
@@ -45,19 +51,21 @@ public class UsuarioService {
         usuarioRepository.deleteById(codUsuario);
     }
 
-    public void atualizarUsuario(Usuario usuario) {
-
-        Usuario u = this.usuarioRepository.getReferenceById(usuario.getCodUsuario());
+    public Usuario atualizarUsuario(Usuario usuario) {
+        Usuario u = usuarioRepository.findById(usuario.getCodUsuario())
+                .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado"));
 
         u.getConta().setEmail(usuario.getConta().getEmail());
-        u.getConta().setSenha(usuario.getConta().getSenha());
+
+        if (usuario.getConta().getSenha() != null && !usuario.getConta().getSenha().isEmpty()) {
+            u.getConta().setSenha(new BCryptPasswordEncoder().encode(usuario.getConta().getSenha()));
+        }
 
         u.getPerfil().setNome(usuario.getPerfil().getNome());
         u.getPerfil().setSexo(usuario.getPerfil().getSexo());
         u.getPerfil().setAltura(usuario.getPerfil().getAltura());
 
-
-        this.usuarioRepository.save(u);
+        return usuarioRepository.save(u);
     }
 
     public Usuario buscarPorEmail(String email) {
