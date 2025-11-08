@@ -1,6 +1,7 @@
 package br.csi.sistema_saude.controller;
 
 
+import br.csi.sistema_saude.model.DTO.BancoMedicamentoDTO;
 import br.csi.sistema_saude.model.DTO.MedicamentoDTO;
 import br.csi.sistema_saude.model.Medicamento;
 
@@ -61,6 +62,7 @@ public class MedicamentoController {
 
     }
 
+
     @GetMapping("/buscar-por-usuario")
     @Operation(summary = "Listar os medicamentos a partir do código do usuário", description = "Retorna uma lista os medicamentos associados a um Usuário já autenticado da sessão")
     @ApiResponses(value = {
@@ -71,26 +73,33 @@ public class MedicamentoController {
     public ResponseEntity<List<MedicamentoDTO>> buscarMedicamentosUsuario() {
 
         //retorno o usuário logado
-        //retorno o usuário do BD pelo email
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         Usuario usuario = usuarioService.buscarPorEmail(email);
 
+
         List<Medicamento> medicamentos = medicamentoService.buscarMedicamentoUsuario(usuario.getCodUsuario());
+
 
         List<MedicamentoDTO> medicamentosDTO = new ArrayList<>();
 
         for (Medicamento m : medicamentos) {
-            String nomeMedicamento;
+
+            // crio o DTO do banco de medicamentos se for != null
+            BancoMedicamentoDTO bancoMedicamentoDTO = null;
             if (m.getBancoMedicamentos() != null) {
-                nomeMedicamento = m.getBancoMedicamentos().getNome();
-            } else {
-                nomeMedicamento = "Indefinido";
+                bancoMedicamentoDTO = new BancoMedicamentoDTO(
+                        m.getBancoMedicamentos().getCodNomeMedicamento(),
+                        m.getBancoMedicamentos().getNome()
+                );
             }
 
+
+            // crio o DTO medicamento com o DTO de bancoMedicamentoDTO
             MedicamentoDTO dto = new MedicamentoDTO(
+                    bancoMedicamentoDTO,
                     m.getCodMedicamento(),
-                    nomeMedicamento,
+                    m.getBancoMedicamentos().getNome(),
                     m.getDoseDiaria(),
                     m.getDataInicio(),
                     m.getDuracaoTratamento()

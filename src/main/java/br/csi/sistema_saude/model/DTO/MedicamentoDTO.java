@@ -5,6 +5,7 @@ import br.csi.sistema_saude.model.Medicamento;
 import java.time.LocalDate;
 
 public record MedicamentoDTO(
+        BancoMedicamentoDTO bancoMedicamentos,
         int codMedicamento,
         String nomeMedicamento,
         int doseDiaria,
@@ -13,6 +14,10 @@ public record MedicamentoDTO(
 ) {
     public MedicamentoDTO(Medicamento medicamento) {
         this(
+                new BancoMedicamentoDTO(
+                        medicamento.getBancoMedicamentos().getCodNomeMedicamento(),
+                        medicamento.getBancoMedicamentos().getNome()
+                ),
                 medicamento.getCodMedicamento(),
                 medicamento.getBancoMedicamentos().getNome(),
                 medicamento.getDoseDiaria(),

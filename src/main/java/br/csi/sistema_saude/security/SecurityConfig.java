@@ -67,7 +67,10 @@ public class SecurityConfig {
 
                                 // Endpoint restrito a ADMIN
                                 .requestMatchers("/usuario/listar-usuarios").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/banco-medicamentos/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/banco-medicamentos/salvar").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/banco-medicamentos/atualizar").hasAuthority("ROLE_ADMIN")
+                                 .requestMatchers("/banco-medicamentos/deletar/{id}").hasAuthority("ROLE_ADMIN")
+
 
                                 // Endpoint /recolhimento → somente ROLE_FARMACIA
                                 .requestMatchers("/recolhimento/**").hasAuthority("ROLE_FARMACIA")
