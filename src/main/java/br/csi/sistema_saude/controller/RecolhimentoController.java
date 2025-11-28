@@ -4,6 +4,7 @@ package br.csi.sistema_saude.controller;
 import br.csi.sistema_saude.model.*;
 import br.csi.sistema_saude.model.DTO.DadoUsuarioDTO;
 import br.csi.sistema_saude.model.DTO.RecolhimentoDTO;
+import br.csi.sistema_saude.model.DTO.RecolhimentoFarmaciaDTO;
 import br.csi.sistema_saude.service.FarmaciaService;
 import br.csi.sistema_saude.service.MedicamentoService;
 import br.csi.sistema_saude.service.RecolhimentoService;
@@ -143,7 +144,7 @@ public class RecolhimentoController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Recolhimento.class))),
             @ApiResponse(responseCode = "404", description = "Erro ao encontrar recolhimentos", content = @Content),
     })
-    public ResponseEntity<List<RecolhimentoDTO>> listarRecolhimentos() {
+    public ResponseEntity<List<RecolhimentoFarmaciaDTO>> listarRecolhimentos() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -152,7 +153,7 @@ public class RecolhimentoController {
         Farmacia farmacia = farmaciaService.buscarPorUsuario(logado.getCodUsuario());
 
 
-        List<RecolhimentoDTO> recolhimentos = recolhimentoService.listarPendentesPorFarmacia(farmacia.getCodFarmacia());
+        List<RecolhimentoFarmaciaDTO> recolhimentos = recolhimentoService.listarPendentesPorFarmacia(farmacia.getCodFarmacia());
 
         if (recolhimentos.isEmpty()) {
             throw new NoSuchElementException("Nenhum recolhimento encontrado");

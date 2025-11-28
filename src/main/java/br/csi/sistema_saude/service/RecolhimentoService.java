@@ -1,6 +1,7 @@
 package br.csi.sistema_saude.service;
 
 import br.csi.sistema_saude.model.DTO.RecolhimentoDTO;
+import br.csi.sistema_saude.model.DTO.RecolhimentoFarmaciaDTO;
 import br.csi.sistema_saude.model.Farmacia;
 import br.csi.sistema_saude.model.Recolhimento;
 import br.csi.sistema_saude.model.RecolhimentoFarmacia;
@@ -49,12 +50,14 @@ public class RecolhimentoService {
     }
 
 
-    public List<RecolhimentoDTO> listarPendentesPorFarmacia(int codFarmacia) {
-        List<Recolhimento> recolhimentos = recolhimentoRepository.findPendentesByFarmacia(codFarmacia);
-        List<RecolhimentoDTO> dtoList = new ArrayList<>();
+    public List<RecolhimentoFarmaciaDTO> listarPendentesPorFarmacia(int codFarmacia) {
 
-        for (Recolhimento recolhimento : recolhimentos) {
-            dtoList.add(new RecolhimentoDTO(recolhimento));
+        List<RecolhimentoFarmacia> lista = recolhimentoFarmaciaRepository.findByFarmacia_CodFarmacia(codFarmacia);
+
+        List<RecolhimentoFarmaciaDTO> dtoList = new ArrayList<>();
+
+        for (RecolhimentoFarmacia rf : lista) {
+            dtoList.add(new RecolhimentoFarmaciaDTO(rf));
         }
 
         return dtoList;

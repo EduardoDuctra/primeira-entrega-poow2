@@ -20,13 +20,13 @@ public class DadosService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void salvarDados(Dados dado) {
+    public Dados salvarDados(Dados dado) {
 
         Usuario usuario = usuarioRepository.findById(dado.getUsuario().getCodUsuario()).orElse(null);
 
 
         dado.setUsuario(usuario);
-        dadosRepository.save(dado);
+        return dadosRepository.save(dado);
     }
     public List<Dados> listarDados() {
         return dadosRepository.findAll();

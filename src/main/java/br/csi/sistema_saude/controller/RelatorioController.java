@@ -2,9 +2,12 @@ package br.csi.sistema_saude.controller;
 
 import br.csi.sistema_saude.model.DTO.RelatorioCompletoDTO;
 import br.csi.sistema_saude.model.DTO.RelatorioDTO;
+import br.csi.sistema_saude.model.DTO.RelatorioSalvarDTO;
+import br.csi.sistema_saude.model.Dados;
 import br.csi.sistema_saude.model.Relatorio;
 import br.csi.sistema_saude.model.RelatorioId;
 import br.csi.sistema_saude.model.Usuario;
+import br.csi.sistema_saude.service.DadosService;
 import br.csi.sistema_saude.service.RelatorioService;
 import br.csi.sistema_saude.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,10 +39,12 @@ public class RelatorioController {
 
     private final RelatorioService relatorioService;
     private final UsuarioService usuarioService;
+    private final DadosService dadosService;
 
-    public RelatorioController(RelatorioService relatorioService, UsuarioService usuarioService) {
+    public RelatorioController(RelatorioService relatorioService, UsuarioService usuarioService, DadosService dadosService) {
         this.relatorioService = relatorioService;
         this.usuarioService = usuarioService;
+        this.dadosService = dadosService;
     }
 
 
@@ -51,28 +56,46 @@ public class RelatorioController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Relatorio.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao salvar relatório", content = @Content)
     })
-    public ResponseEntity salvarRelatorio(@RequestBody @Valid Relatorio relatorio, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Relatorio> salvarRelatorio(
+            @RequestBody @Valid RelatorioSalvarDTO dto,
+            UriComponentsBuilder uriBuilder) {
 
-
-        //retorno o usuário logado
-        //retorno o usuário do BD pelo email
+        // pega usuário logado
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         Usuario usuario = usuarioService.buscarPorEmail(email);
 
-        relatorio.getId().setCodUsuario(usuario.getCodUsuario());
+        // cria o objeto Dados
+        Dados dados = new Dados();
+        dados.setPeso(dto.dados().peso());
+        dados.setGlicose(dto.dados().glicose());
+        dados.setColesterolHDL(dto.dados().colesterolHDL());
+        dados.setColesterolVLDL(dto.dados().colesterolVLDL());
+        dados.setCreatina(dto.dados().creatina());
+        dados.setTrigliceridio(dto.dados().trigliceridio());
+        dados.setUsuario(usuario);
+
+        dados = dadosService.salvarDados(dados);
+
+        // cria o relatório
+        Relatorio relatorio = new Relatorio();
+        RelatorioId id = new RelatorioId();
+        id.setCodUsuario(usuario.getCodUsuario());
+        id.setCodDado(dados.getCodDado());
+        id.setData(LocalDate.parse(dto.data()));
+        relatorio.setId(id);
         relatorio.setUsuario(usuario);
+        relatorio.setDados(dados);
 
         relatorioService.salvarRelatorio(relatorio);
+
         URI uri = uriBuilder
                 .path("/relatorios/{codDado}/{data}")
-                .buildAndExpand(relatorio.getId().getCodUsuario(),
-                        relatorio.getId().getCodDado(),
-                        relatorio.getId().getData())
+                .buildAndExpand(relatorio.getId().getCodDado(), relatorio.getId().getData())
                 .toUri();
-        return ResponseEntity.created(uri).body(relatorio); //201 criado
-    }
 
+        return ResponseEntity.created(uri).body(relatorio);
+    }
 
     // Buscar um relatório pelo ID composto
     @GetMapping("/{codDado}/{data}")

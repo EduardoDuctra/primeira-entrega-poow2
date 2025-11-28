@@ -73,7 +73,9 @@ public class SecurityConfig {
 
 
                                 // Endpoint /recolhimento → somente ROLE_FARMACIA
-                                .requestMatchers("/recolhimento/**").hasAuthority("ROLE_FARMACIA")
+                                .requestMatchers("/recolhimento/atualizar/{codRecolhimento}").hasAuthority("ROLE_FARMACIA")
+                                .requestMatchers("/recolhimento/listar-todas-solicitacao-recolhimento").hasAuthority("ROLE_FARMACIA")
+                                .requestMatchers("/recolhimento/listar-recolhimento-por-farmacia").hasAuthority("ROLE_FARMACIA")
 
                                 .requestMatchers(HttpMethod.GET, "/farmacia/listar-farmacias").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers(HttpMethod.PUT, "/farmacia/atualizar-farmacia").hasAuthority("ROLE_FARMACIA")
